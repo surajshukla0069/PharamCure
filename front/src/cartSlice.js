@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'https://backend-production-1f82.up.railway.app/api';
 
 // Helper to get auth header
 const getAuthHeader = () => {

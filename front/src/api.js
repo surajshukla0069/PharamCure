@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth";
-const CART_API_URL = "http://localhost:8080/api/cart";
-const ORDER_API_URL = "http://localhost:8080/api/orders";
+const BASE_URL = "https://backend-production-1f82.up.railway.app";
+const API_URL = `${BASE_URL}/api/auth`;
+const CART_API_URL = `${BASE_URL}/api/cart`;
+const ORDER_API_URL = `${BASE_URL}/api/orders`;
 
 // Helper to get auth header
 const getAuthHeader = () => {

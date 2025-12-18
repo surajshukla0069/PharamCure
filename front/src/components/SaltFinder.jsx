@@ -16,7 +16,7 @@ const SaltFinder = () => {
     
     try {
       // Call backend API which does web scraping from 1mg
-      const response = await axios.get(`http://localhost:8080/api/get-salt?brandName=${encodeURIComponent(searchTerm.trim())}`);
+      const response = await axios.get(`https://backend-production-1f82.up.railway.app/api/get-salt?brandName=${encodeURIComponent(searchTerm.trim())}`);
       
       if (response.data.found && response.data.saltComposition) {
         setResult({ 
