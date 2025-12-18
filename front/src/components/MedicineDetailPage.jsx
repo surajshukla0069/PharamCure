@@ -138,7 +138,7 @@ export default function MedicineDetailPage() {
 
     // Try API as fallback
     axios
-      .get(`/api/find-generic?brandName=${encodeURIComponent(decodedName)}`)
+      .get(`https://backend-production-1f82.up.railway.app/api/find-generic?brandName=${encodeURIComponent(decodedName)}`)
       .then((res) => {
         if (res.data.success && res.data.genericAlternatives?.length > 0) {
           const alt = res.data.genericAlternatives[0];

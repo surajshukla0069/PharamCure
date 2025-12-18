@@ -9,15 +9,16 @@
 const fs = require('fs');
 const { MongoClient } = require('mongodb');
 
-const uri = 'mongodb://localhost:27017';
+// Railway MongoDB URL
+const uri = 'mongodb://mongo:bIrcHoNjCwAcrLfwkpavcPUzxqYyVBVo@turntable.proxy.rlwy.net:35396';
 const dbName = 'pharmacydb';
 const collectionName = 'medicines';
 
-// CSV file paths
+// CSV file paths (relative to project root)
 const csvFiles = [
-    { path: './front/public/Category/Jan Aushadhi.csv', source: 'Jan Aushadhi' },
-    { path: './front/public/Category/Dava India.csv', source: 'Dava India' },
-    { path: './front/public/Category/Zeelabs.csv', source: 'Zeelabs' }
+    { path: '../front/public/Category/Jan Aushadhi.csv', source: 'Jan Aushadhi' },
+    { path: '../front/public/Category/Dava India.csv', source: 'Dava India' },
+    { path: '../front/public/Category/Zeelabs.csv', source: 'Zeelabs' }
 ];
 
 // Parse CSV line handling quoted values

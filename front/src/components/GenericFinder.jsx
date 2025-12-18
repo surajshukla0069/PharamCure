@@ -45,7 +45,7 @@ const GenericFinder = () => {
                 setLoadingMessage('Not found locally, searching 1mg.com...');
             }, 2000);
 
-            const response = await fetch(`/api/find-generic?brandName=${encodeURIComponent(brandName.trim())}`);
+            const response = await fetch(`https://backend-production-1f82.up.railway.app/api/find-generic?brandName=${encodeURIComponent(brandName.trim())}`);
             
             clearTimeout(scrapingTimer);
             

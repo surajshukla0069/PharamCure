@@ -1028,42 +1028,39 @@ public class GenericFinderService {
             
             System.out.println("[GenericFinder] 📋 Total candidates: " + candidates.size());
             
-            // Filter for EXACT matches only - NOW WITH DOSAGE CHECK
+            // Filter for matches - check salt names AND dosage from medicine NAME
             for (Medicine med : candidates) {
                 if (med.getSalts() == null || med.getSalts().isEmpty()) {
                     continue;
                 }
                 
-                // Keep medicine salts WITH dosage for comparison
-                List<String> medSaltsOriginal = med.getSalts().stream()
-                    .map(s -> s.toLowerCase().trim())
-                    .filter(s -> s.length() >= 2)
-                    .sorted()
-                    .collect(Collectors.toList());
-                
-                // Also get normalized (without dosage) for fallback
+                // Get normalized salt names (without dosage) 
                 List<String> medSaltsNormalized = med.getSalts().stream()
                     .map(s -> extractSaltName(s))
                     .filter(s -> s.length() >= 2)
                     .sorted()
                     .collect(Collectors.toList());
                 
-                // STRICT MATCH: Check salt names AND dosages match
-                if (isExactSaltMatchWithDosage(originalSearchSalts, medSaltsOriginal)) {
-                    exactMatches.add(med);
-                    System.out.println("[GenericFinder] ✅ EXACT MATCH (with dosage): " + med.getName());
-                } 
-                // Salt names match but dosage is different - WARNING
-                else if (isExactSaltMatch(normalizedSearchSalts, medSaltsNormalized)) {
-                    // Check if dosages are present and different
-                    boolean hasDosageMismatch = hasDosageMismatch(originalSearchSalts, medSaltsOriginal);
-                    if (hasDosageMismatch) {
-                        System.out.println("[GenericFinder] ⚠️ DOSAGE MISMATCH - NOT showing: " + med.getName());
-                        // Don't add to results - wrong dosage is dangerous!
+                // Check if salt names match
+                if (isExactSaltMatch(normalizedSearchSalts, medSaltsNormalized)) {
+                    // Salt names match! Now check dosage from MEDICINE NAME
+                    String medName = med.getName().toLowerCase();
+                    String searchDosage = extractDosage(String.join(" ", originalSearchSalts));
+                    String medDosage = extractDosage(medName);
+                    
+                    // If search has dosage, check if medicine name contains same dosage
+                    if (!searchDosage.isEmpty() && !medDosage.isEmpty()) {
+                        if (searchDosage.equals(medDosage)) {
+                            // Exact dosage match in name!
+                            exactMatches.add(med);
+                            System.out.println("[GenericFinder] ✅ MATCH with dosage from name: " + med.getName());
+                        } else {
+                            System.out.println("[GenericFinder] ⚠️ DOSAGE MISMATCH (name): " + med.getName() + " | search: " + searchDosage + " vs med: " + medDosage);
+                        }
                     } else {
-                        // Salts match, no dosage conflict
+                        // No dosage conflict - accept match
                         exactMatches.add(med);
-                        System.out.println("[GenericFinder] ✅ Salt match (no dosage conflict): " + med.getName());
+                        System.out.println("[GenericFinder] ✅ Salt match (no dosage in name): " + med.getName());
                     }
                 }
             }

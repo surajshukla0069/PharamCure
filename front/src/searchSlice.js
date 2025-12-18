@@ -6,7 +6,7 @@ export const fetchGenericMedicine = createAsyncThunk(
   async (name, { rejectWithValue }) => {
     try {
       // Use the new find-generic API that returns salt + alternatives properly
-      const genericRes = await axios.get(`/api/find-generic?brandName=${encodeURIComponent(name)}`);
+      const genericRes = await axios.get(`https://backend-production-1f82.up.railway.app/api/find-generic?brandName=${encodeURIComponent(name)}`);
       const data = genericRes.data;
       
       // Format for UI
